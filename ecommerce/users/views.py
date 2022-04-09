@@ -2,9 +2,12 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.models import auth,User
 from django.contrib import messages
 # Create your views here.
+
+# home view
 def house(request):
 
     return render(request,'house.html')
+    # login view
 def login(request):
     if request.method=='POST':
         username = request.POST['username']
@@ -13,13 +16,13 @@ def login(request):
         user=auth.authenticate(username=username,password=password)
         if user is not None:
             auth.login(request,user)
-            return redirect('house')
+            return redirect('index')
         else:
             messages.info(request,'invalid username or password')
             return redirect('login')
     else:
         return render(request,'login.html')
-
+# signup view
 def signup(request):
     if request.method=='POST':
         first_name=request.POST['first_name']
@@ -45,7 +48,7 @@ def signup(request):
             messages.info(request,'password not matching...')
             return redirect('signup')
     return render(request,'signup.html')
-
+# logout view
 def logout(request):
     auth.logout(request)
     return redirect('/')
